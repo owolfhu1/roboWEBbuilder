@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Orion's robot resume builder</title>
+</head>
+<body>
+
+	<form action="server" method="post">
+			<h2>Create new resume: </h2>
+		name: 		<input type="text" name="name"/><br>
+		email: 		<input type="email" name="email"/><br>
+		password: 	<input type="password" name="password"/><br>
+					<input type="hidden" name="act" value="new"/>
+					<input type="submit" value="create"/>
+	</form>
+	
+	<form action="server" method="post">
+			<h2>Edit existing resume</h2>
+		email: 		<input type="email" name="email"/><br>
+		password: 	<input type="password" name="password"/><br>
+					<input type="hidden" name="act" value="login"/>
+					<input type="submit" value="login"/>
+	</form>
+
+</body>
+</html>

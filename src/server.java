@@ -3,6 +3,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,15 +28,16 @@ public class server extends HttpServlet {
 		String options;
 		int index;
 		String id;
-		//boolean hasResume = session.
+		Enumeration<String> e = session.getAttributeNames();
+		boolean activeSession = e.hasMoreElements();
+		System.out.println(activeSession);
+		
 		
 		//get action
 		String act = request.getParameter("act");
 		
 		switch(act) {
 			case "login":
-				
-				//todo, test it after adding save option
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
 				id = DB.login(email, password);
@@ -44,7 +46,6 @@ public class server extends HttpServlet {
 					nextURL = "/viewer.jsp";
 					session.setAttribute("body", build(resume));
 				} else nextURL = "/index.html";
-				
 			break;
 			case "save":
 				resume = (Resume)session.getAttribute("resume");
@@ -162,7 +163,14 @@ public class server extends HttpServlet {
 				session.setAttribute("body", build(resume));
 				nextURL = "/viewer.jsp";
 			break;
-			
+			case "delete":
+				resume = (Resume)session.getAttribute("resume");
+				id = DB.login(resume.getEmail(), resume.getPass());
+				if (!id.equals("-1")) {
+					DB.deleteResume(id);
+				}
+				nextURL = "/index.html";
+			break;	
 		}
 	
 		//go to nextURL
@@ -177,21 +185,21 @@ public class server extends HttpServlet {
         ArrayList<Skill> skillList = r.getskills();
         
          
-        if(!eduList.isEmpty()) x += "<h2>Education: </h2>";
+        if(!eduList.isEmpty()) x += "<h3>Education: </h3>";
         for (Edu edu : eduList) {
-        	x += edu.getSchool() + "<br>";
+        	x += "<b>" + edu.getSchool() + "</b>" + "<br>";
         	x += edu.getDegree() + "<br><br>";
         }
-        if(!workList.isEmpty()) x += "<h2>Work Experence: </h2>";
+        if(!workList.isEmpty()) x += "<h3>Work Experence: </h3>";
         for (Work work : workList) {
-        	x += work.getTitle() + "<br>";
+        	x += "<b>" + work.getTitle() + "</b>" + "<br>";
         	x += work.getCompany() + "<br>";
         	for(String task : work.getTasks()){
-        		x += task + "<br>";
+        		x += "- " + task + "<br>";
         	}
         	x += "<br>";
         }
-        if(!skillList.isEmpty()) x += "<h2>Skills: </h2>";
+        if(!skillList.isEmpty()) x += "<h3>Skills: </h3>";
         for (Skill skill : skillList) {
         	x += String.format("%s: %s <br>", skill.getSkill(), skill.getLevel());
         }

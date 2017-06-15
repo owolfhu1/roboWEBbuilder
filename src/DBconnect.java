@@ -10,12 +10,12 @@ public class DBconnect {
 
 	//on create set up getConnect string for connecting to specific schema
 	public DBconnect(String schema, String user, String pass) {
-		String format = "jdbc:mysql://localhost/%s?user=%s&password=%s";
+		String format = "jdbc:mysql://localhost:3306/%s?user=%s&password=%s";
 		getConnect = String.format(format, schema, user, pass);
 	}
 	//default root : password
 	public DBconnect(String schema) {
-		String format = "jdbc:mysql://localhost/%s?user=root&password=password";
+		String format = "jdbc:mysql://localhost:3306/%s?user=root&password=password";
 		getConnect = String.format(format, schema);
 	}
 	
@@ -23,12 +23,13 @@ public class DBconnect {
 		try {
 			Connection con = null;
 			PreparedStatement statement = null;
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(getConnect);
 			String sql = String.format("insert into %s (%s) values (?)", table, column);
 			statement = con.prepareStatement(sql);
 			statement.setString(1, toAdd);
 			statement.executeUpdate();
-		} catch (SQLException e) {e.printStackTrace();}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 	
 	//overloaded addReccords to take multiple records
@@ -36,6 +37,7 @@ public class DBconnect {
 		try {
 			Connection con = null;
 			PreparedStatement statement = null;
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(getConnect);
 			String columnsArray = "";
 			String commaArray = "";
@@ -57,32 +59,34 @@ public class DBconnect {
 			}
 			
 			statement.executeUpdate();
-		} catch (SQLException e) {e.printStackTrace();}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 	
 	public void updateRecord(String table, String column, String whereColumn, String columnEquals, String toUpdate){
 		try{
 			Connection con = null;
 			PreparedStatement statement = null;
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(getConnect);
 			String sql = String.format("update %s set %s = ? where %s = '%s'",table, column, whereColumn, columnEquals);
 			statement = con.prepareStatement(sql);
 			statement.setString(1, toUpdate);
 			statement.executeUpdate();
-		} catch (SQLException e) {e.printStackTrace();}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 	
 	public void deleteRecord(String table, String whereColumn, String toDelete) {
 		try {
 			Connection con = null;
 			PreparedStatement statement = null;
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(getConnect);
 			String sql = String.format("delete from %s where %s = ?", table, whereColumn);
 			statement = con.prepareStatement(sql);
 			statement.setString(1, toDelete);
 			statement.executeUpdate();
 			
-		} catch (SQLException e) {e.printStackTrace();}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 	
 	public ArrayList<ArrayList<String>> getData(String table, String whereColumn, String equals, String... columns){
@@ -97,6 +101,7 @@ public class DBconnect {
 			colString = colString.substring(0, colString.length() -1);
 			
 			//connect to DB and run query
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(getConnect);
 			String sql = String.format("select %s from %s where %s = '%s'", colString, table, whereColumn, equals);
 			statement = con.prepareStatement("");

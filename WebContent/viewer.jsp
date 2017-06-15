@@ -36,6 +36,10 @@
 			<input type="submit" value="delete resume">
 		</form>
 		<form action="server" method="post">
+			<input type="hidden" name="act" value="print">
+			<input type="submit" value="save and print">
+		</form>
+		<form action="server" method="post">
 			<input type="hidden" name="act" value="logout">
 			<input type="submit" value="discared changes and quit">
 		</form>

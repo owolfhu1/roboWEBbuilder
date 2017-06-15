@@ -189,6 +189,10 @@ public class server extends HttpServlet {
 					}
 					nextURL = "/index.html";
 				break;	
+				case "print":
+					printFancy(session);
+					nextURL = "/print.jsp";
+				break;
 			}
 		}
 		//go to nextURL
@@ -223,6 +227,9 @@ public class server extends HttpServlet {
         }
 		return x;
 	}
+	
+	private void printFancy()
+	
 }
 
 /*

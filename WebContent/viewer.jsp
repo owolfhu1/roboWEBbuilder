@@ -35,6 +35,10 @@
 			<input type="hidden" name="act" value="delete">
 			<input type="submit" value="delete resume">
 		</form>
+		<form action="server" method="post">
+			<input type="hidden" name="act" value="logout">
+			<input type="submit" value="discared changes and quit">
+		</form>
 	
 	</body>
 </html>

@@ -4,18 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>add education</title>
+<title>Insert title here</title>
 </head>
 <body>
 
 	<form action="server" method="post">
-			<h2>Add a new school: </h2>
-		school: 	<input type="text" name="school"/><br>
-		degree: 	<input type="text" name="degree"/><br>
-					<input type="hidden" name="act" value="addEdu"/>
-					<input type="submit" value="add school"/>
+		${options}
+		<input type="hidden" name="act" value="${act}">
+		<input type="submit" value="delete">
 	</form>
-	<br><a href="viewer.jsp">cancel</a>
 
 </body>
 </html>

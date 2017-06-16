@@ -10,8 +10,9 @@
 <title>print your resume</title>
 </head>
 <body>
+<br>
 <div class="container">
-  <div class="jumbotron">
+  <div class="jumbotron" style="text-aline: center;">
     <h1>${name}</h1> 
     <p>${email}</p> 
   </div>

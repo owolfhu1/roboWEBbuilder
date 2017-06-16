@@ -10,22 +10,12 @@
 <title>print your resume</title>
 </head>
 <body>
-
 <div class="container">
   <div class="jumbotron">
     <h1>${name}</h1> 
     <p>${email}</p> 
   </div>
-  
   ${body}
-  
-  
-  
-  
-  
 </div>
-
-
-
 </body>
 </html>

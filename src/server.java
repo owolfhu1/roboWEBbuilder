@@ -191,8 +191,19 @@ public class server extends HttpServlet {
 				break;	
 				case "print":
 					resume = (Resume)session.getAttribute("resume");
-					printFancy(session, resume);
-					nextURL = "/print.jsp";
+					
+					if (resume.getEdu().size() == 0 || resume.getskills().size() == 0) {
+						nextURL = "/viewer.jsp";
+						body = build(resume) + "<p>You must enter at least 1 edu and skill to save</p>";
+						session.setAttribute("body", body);
+						session.setAttribute("resume", resume);
+					} else {
+						id = DB.login(resume.getEmail(), resume.getPass());
+						if (!id.equals("-1")) DB.deleteResume(id);
+						DB.addResume(resume);
+						printFancy(session, resume);
+						nextURL = "/print.jsp";
+					}
 				break;
 			}
 		}
@@ -232,12 +243,44 @@ public class server extends HttpServlet {
 	private void printFancy(HttpSession s, Resume r) {
 		String name = r.getName();
 		String email = r.getEmail();
-		String body = "";
-		
-		
-		
-		
-		
+		ArrayList<Edu> eduList = r.getEdu();
+        ArrayList<Work> workList = r.getWork();
+        ArrayList<Skill> skillList = r.getskills();
+        
+		String body = "<div class=\"well\">";
+	
+        if(!eduList.isEmpty()) { 
+        	body += "<h3>Education: </h3><div class=\"well\"><ul>";
+	        for (Edu edu : eduList) {
+	        	body += "<li><b>" + edu.getSchool() + "</b>" + "<br>";
+	        	body += edu.getDegree() + "</li><br>";
+	        }
+	        body += "</ul></div>";
+        }
+        
+        if(!workList.isEmpty()) { 
+        	body += "<h3>Work Experence: </h3><div class=\"well\"><ul>";
+	        for (Work work : workList) {
+	        	body += "<li><b>" + work.getTitle() + "</b>" + "<br>";
+	        	body += work.getCompany() + "<ul>";
+	        	for(String task : work.getTasks()){
+	        		body += "<li>" + task + "</li>";
+	        	}
+	        	body += "<br></ul></li>";
+	        }
+	        body += "</ul></div>";
+        }
+        
+        if(!skillList.isEmpty()) { 
+        	body += "<h3>Skills: </h3><div class=\"well\"><ul>";
+        	
+	        for (Skill skill : skillList) {
+	        	body += String.format("<li>%s: %s </li>", skill.getSkill(), skill.getLevel());
+	        }
+	        body += "</ul></div>";
+	    }
+			
+		body += "</div>";
 		
 		s.setAttribute("name", name);
 		s.setAttribute("email", email);

@@ -190,7 +190,8 @@ public class server extends HttpServlet {
 					nextURL = "/index.html";
 				break;	
 				case "print":
-					printFancy(session);
+					resume = (Resume)session.getAttribute("resume");
+					printFancy(session, resume);
 					nextURL = "/print.jsp";
 				break;
 			}
@@ -228,7 +229,20 @@ public class server extends HttpServlet {
 		return x;
 	}
 	
-	private void printFancy()
+	private void printFancy(HttpSession s, Resume r) {
+		String name = r.getName();
+		String email = r.getEmail();
+		String body = "";
+		
+		
+		
+		
+		
+		
+		s.setAttribute("name", name);
+		s.setAttribute("email", email);
+		s.setAttribute("body", body);
+	}
 	
 }
 
